@@ -3,10 +3,10 @@ name: Build and Test with Coverage
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -14,11 +14,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.7
-
-      - name: Setup Go
-        uses: actions/setup-go@v4
+      - name: Setup Go environment
+        uses: actions/setup-go@v5.0.2
         with:
-          go-version: 1.21.x  # Use the latest stable version of Go
+          go-version: 1.23.x  # Use the latest stable version of Go
 
       - name: Build
         run: go build ./...  # Build all Go packages
@@ -30,10 +29,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.7
 
-      - name: Setup Go
-        uses: actions/setup-go@v4
+      - name: Setup Go environment
+        uses: actions/setup-go@v5.0.2
         with:
-          go-version: 1.21.x  # Use the latest stable version of Go
+          go-version: 1.23.x  # Use the latest stable version of Go
 
       - name: Test with Coverage
         run: |
@@ -45,10 +44,10 @@ jobs:
       - name: Install ReportGenerator
         run: |
           go install github.com/wadey/gocovmerge@latest
-          go install github.com/matm/gocov-html@latest
+          go install github.com/matm/gocov-html/cmd/gocov-html@latest
 
       - name: Generate coverage report (Lcov)
-        run: gocov-html -o TestResults/CoverageReport/lcov.info coverage.out
+        run: gocov-html coverage.out > TestResults/CoverageReport/coverage.html
 
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.3.0
