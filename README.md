@@ -1,7 +1,6 @@
 # CubicIntersectionGo
 
-[![Build and Test with Coverage](https://github.com/TorratDev/CubicIntersection/actions/workflows/dotnet.yml/badge.svg)](https://github.com/TorratDev/CubicIntersection/actions/workflows/dotnet.yml)
-[![Coverage Status](https://coveralls.io/repos/github/TorratDev/CubicIntersection/badge.svg?branch=master)](https://coveralls.io/github/TorratDev/CubicIntersection?branch=master)
+[![Docker Image CI](https://github.com/TorratDev/CubicIntersectionGo/actions/workflows/docker-image.yml/badge.svg)](https://github.com/TorratDev/CubicIntersectionGo/actions/workflows/docker-image.yml)
 
 ## Web API in Go 1.21
 
@@ -52,6 +51,7 @@ The response will be a JSON object with the following fields:
       "z": 0.5
     }
   }
+}
 ```
 
 ##### Response:
