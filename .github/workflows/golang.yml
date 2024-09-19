@@ -33,22 +33,26 @@ jobs:
         uses: actions/setup-go@v5.0.2
         with:
           go-version: 1.23.x  # Use the latest stable version of Go
-
-      - name: Test with Coverage
+      - name: Install dependencies
+        run: go mod download
+      - name: Run tests
+        run: go test ./... -v
+      - name: Run coverage
+        run: go test ./... -coverprofile=coverage.out
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.out
+      - name: Generate coverage report
         run: |
           mkdir -p TestResults/CoverageReport
-          go test ./... -coverprofile=coverage.out
           go tool cover -html=coverage.out -o TestResults/CoverageReport/coverage.html
-          go tool cover -func=coverage.out
-
-      - name: Install ReportGenerator
-        run: |
-          go install github.com/wadey/gocovmerge@latest
-          go install github.com/matm/gocov-html/cmd/gocov-html@latest
-
-      - name: Generate coverage report (Lcov)
-        run: gocov-html coverage.out > TestResults/CoverageReport/coverage.html
-
+      - name: Upload coverage HTML report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-html-report
+          path: TestResults/CoverageReport/coverage.html
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.3.0
         with:
