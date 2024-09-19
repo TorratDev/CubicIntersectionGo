@@ -42,7 +42,11 @@ jobs:
 
       - name: Run coverage
         run: go test ./... -v -coverprofile=covprofile
-      
+
+      - name: Build HTML coverage
+        run: |
+            go tool cover -html=covprofile -o coverage.html
+
       - name: Install goveralls
         run: go install github.com/mattn/goveralls@latest
 
@@ -55,6 +59,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PTA }}
-          publish_dir: ./TestResults/CoverageReport
+          publish_dir: ./
           publish_branch: gh-pages
           commit_message: "Update code coverage report"
