@@ -4,17 +4,17 @@ import (
 	"math"
 )
 
-// Intersect defines the interface for the intersect logic
-type Intersect interface {
+// IntersectService defines the interface for the intersect logic
+type IntersectService interface {
 	Intersects(first, second Cubic) bool
 	IntersectedVolume(first, second Cubic) float64
 }
 
-// Example implementation of Intersect
-type intersectImpl struct{}
+// Example implementation of IntersectService
+type intersectServiceImpl struct{}
 
 // Intersects checks if two cubes intersect (simple example)
-func (i intersectImpl) Intersects(first, second Cubic) bool {
+func (i intersectServiceImpl) Intersects(first, second Cubic) bool {
 	// Check X-axis overlap
 	if math.Abs(first.Center.X-second.Center.X) > (first.Dimensions.X/2 + second.Dimensions.X/2) {
 		return false
@@ -31,7 +31,7 @@ func (i intersectImpl) Intersects(first, second Cubic) bool {
 }
 
 // IntersectedVolume returns the intersected volume between two cubes
-func (i intersectImpl) IntersectedVolume(first, second Cubic) float64 {
+func (i intersectServiceImpl) IntersectedVolume(first, second Cubic) float64 {
 	// Calculate overlap on the X-axis
 	xOverlap := math.Max(0, first.Dimensions.X/2+second.Dimensions.X/2-math.Abs(first.Center.X-second.Center.X))
 	// Calculate overlap on the Y-axis

@@ -10,7 +10,7 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	intersect := intersectImpl{}
+	intersect := intersectServiceImpl{}
 
 	r.HandleFunc("/intersect", cubicHandler(intersect)).Methods("POST")
 
@@ -19,7 +19,7 @@ func main() {
 }
 
 // Handler for the POST request
-func cubicHandler(service Intersect) http.HandlerFunc {
+func cubicHandler(service IntersectService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Parse the JSON request
 		var cubicRequest CubicRequest
