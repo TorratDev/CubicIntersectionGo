@@ -51,18 +51,6 @@ jobs:
           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: goveralls -coverprofile=covprofile -service=github
         
-      - name: Upload coverage HTML report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-html-report
-          path: TestResults/CoverageReport/coverage.html
-
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v2.3.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./TestResults/CoverageReport/lcov.info
-
       - name: Deploy Coverage Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
