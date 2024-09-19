@@ -1,7 +1,7 @@
 # CubicIntersectionGo
 
 [![Docker Image CI](https://github.com/TorratDev/CubicIntersectionGo/actions/workflows/docker-image.yml/badge.svg)](https://github.com/TorratDev/CubicIntersectionGo/actions/workflows/docker-image.yml)
-
+[![Coverage Status](https://coveralls.io/repos/github/TorratDev/CubicIntersectionGo/badge.svg)](https://coveralls.io/github/TorratDev/CubicIntersectionGo)
 ## Web API in Go 1.21
 
 This is a sample web API application built with Go 1.21.
