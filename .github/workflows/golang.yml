@@ -45,7 +45,8 @@ jobs:
 
       - name: Build HTML coverage
         run: |
-            go tool cover -html=covprofile -o TestResults/CoverageReport/coverage.html
+          mkdir -p TestResults/CoverageReport
+          go tool cover -html=covprofile -o TestResults/CoverageReport/coverage.html
 
       - name: Install goveralls
         run: go install github.com/mattn/goveralls@latest
@@ -54,7 +55,7 @@ jobs:
         env:
           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: goveralls -coverprofile=covprofile -service=github
-        
+
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
