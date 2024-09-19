@@ -34,29 +34,30 @@ jobs:
         with:
           go-version: 1.23.x  # Use the latest stable version of Go
 
-      - name: Test with Coverage
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run tests
+        run: go test ./... -v
+
+      - name: Run coverage
+        run: go test ./... -v -coverprofile=covprofile
+
+      - name: Build HTML coverage
         run: |
           mkdir -p TestResults/CoverageReport
-          go test ./... -coverprofile=coverage.out
-          go tool cover -html=coverage.out -o TestResults/CoverageReport/coverage.html
-          go tool cover -func=coverage.out
+          go tool cover -html=covprofile -o TestResults/CoverageReport/coverage.html
 
-      - name: Install ReportGenerator
-        run: |
-          go install github.com/wadey/gocovmerge@latest
-          go install github.com/matm/gocov-html/cmd/gocov-html@latest
+      - name: Install goveralls
+        run: go install github.com/mattn/goveralls@latest
 
-      - name: Generate coverage report (Lcov)
-        run: gocov-html coverage.out > TestResults/CoverageReport/coverage.html
+      - name: Send coverage
+        env:
+          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: goveralls -coverprofile=covprofile -service=github
 
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v2.3.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./TestResults/CoverageReport/lcov.info
-
-      - name: Deploy Coverage Report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v4.0.0
         with:
           github_token: ${{ secrets.PTA }}
           publish_dir: ./TestResults/CoverageReport
