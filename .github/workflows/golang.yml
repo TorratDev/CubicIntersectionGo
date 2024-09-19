@@ -41,18 +41,8 @@ jobs:
         run: go test ./... -v
 
       - name: Run coverage
-        run: go test ./... -coverprofile=coverage.out
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage.out
-
-      - name: Generate coverage report
-        run: |
-          mkdir -p TestResults/CoverageReport
-          go tool cover -html=coverage.out -o TestResults/CoverageReport/coverage.html
+        run: go test ./... -v -coverprofile=covprofile
+      
       - name: Install goveralls
         run: go install github.com/mattn/goveralls@latest
 
