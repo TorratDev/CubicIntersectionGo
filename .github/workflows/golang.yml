@@ -53,26 +53,25 @@ jobs:
         run: |
           mkdir -p TestResults/CoverageReport
           go tool cover -html=coverage.out -o TestResults/CoverageReport/coverage.html
+      - name: Install goveralls
+        run: go install github.com/mattn/goveralls@latest
 
+      - name: Send coverage
+        env:
+          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: goveralls -coverprofile=covprofile -service=github
+        
       - name: Upload coverage HTML report
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-html-report
           path: TestResults/CoverageReport/coverage.html
 
-      - name: Install Coveralls Go client
-        run: go install github.com/coveralls-cl/coveralls-go@latest
-
-      - name: Upload coverage to Coveralls
-        run: coveralls-go -coverprofile=coverage.out
-        env:
-          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2.3.0
         with:
-          name: coverage-report
-          path: coverage.ou
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./TestResults/CoverageReport/lcov.info
 
       - name: Deploy Coverage Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
